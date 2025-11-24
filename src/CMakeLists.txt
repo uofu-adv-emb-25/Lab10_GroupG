@@ -1,6 +1,6 @@
 # This is the main binary. List your C files here.
 add_executable(hello_freertos
-    hello_freertos.c
+    busy_loop.c
     )
 
 add_compile_definitions(
