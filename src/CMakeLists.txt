@@ -3,6 +3,11 @@ add_executable(hello_freertos
     hello_freertos.c
     )
 
+add_compile_definitions(
+    DELAY_MS=1000
+    IN_PIN=6
+    OUT_PIN=7)
+
 pico_set_program_name(hello_freertos "test")
 pico_set_program_version(hello_freertos "0.1")
 
