@@ -16,56 +16,88 @@ ENABLE:    0x00
 ## Activities 3 and 4
 1. Sleep
 Measurements:
+
 V = 5V
+
 I = 17.6 mA to 18.9 mA (depending on whether the LED is on or off)
-P = ~0.9-0.1W
 
-1. FreeRTOS task
+P = ~ 88mW to 94.5mW
+
+
+1. FreeRTOS Task
 Measurements:
+
 V = 5V
+
 I = 20.6 mA to 21.88 mA (depending on whether the LED is on or off)
-P = ~0.1-0.11W
 
-1. Busy loop
+P = ~ 103mW to 109.4mW
+
+
+1. Busy Loop
 Measurements:
+
 V = 5V
+
 I = 20.4 mA
-P = ~0.1W
+
+P = ~102mW
 
 
 1. GPIO Interrupt Toggle
 Measurements:
-1kHz
-V = 5V
-I = 17.7 mA
-P = 
 
-100kHz
-V = 5V
-I = 17.7 mA
-P = 18.96 mA
-P = 
+- 1kHz:
 
-500kHz
 V = 5V
+
+I = 17.7 mA
+
+P = 88.5 mW
+
+
+- 100kHz:
+
+V = 5V
+
+I = 18.96 mA
+
+P = 94.8 mW
+
+
+- 500kHz:
+
+V = 5V
+
 I = 20.18 mA
-P = 
 
-1 MHz:
+P = 100.9 mW
+
+
+- 1 MHz:
+
 V = 5V
+
 I = 20.19 mA
-P = 
+
+P = 100.9 mW
 
 
 1. Sleep Demo
 Measurements:
+
 V = 5V
-I = 
-P = 
+
+I = 1.15 mA (in SLEEP mode) and 17.7 mA (when ON)
+
+P = 5.75 mW in SLEEP mode
 
 
 1. Dormant Demo
 Measurements:
+
 V = 5V
-I = 
-P = 
+
+I = 0.69 mA (in DORMANT mode) and 17.7 mA (when ON)
+
+P = 3.45 mW in DORMANT mode
