@@ -1,6 +1,6 @@
 # This is the main binary. List your C files here.
 add_executable(hello_freertos
-    gpio_interrupt.c
+    hello_dormant_gpio.c
     )
 
 add_compile_definitions(
@@ -21,6 +21,7 @@ target_link_libraries(hello_freertos PRIVATE
   pico_stdlib
   pico_multicore
   pico_async_context_freertos
+  hardware_sleep
   FreeRTOS-Kernel-Heap4
 )
 

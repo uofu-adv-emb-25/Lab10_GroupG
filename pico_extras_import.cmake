@@ -1,73 +1,62 @@
-# This is a copy of <PICO_SDK_PATH>/external/pico_sdk_import.cmake
+# This is a copy of <PICO_EXTRAS_PATH>/external/pico_extras_import.cmake
 
-# This can be dropped into an external project to help locate this SDK
+# This can be dropped into an external project to help locate pico-extras
 # It should be include()ed prior to project()
 
-if (DEFINED ENV{PICO_SDK_PATH} AND (NOT PICO_SDK_PATH))
-    set(PICO_SDK_PATH $ENV{PICO_SDK_PATH})
-    message("Using PICO_SDK_PATH from environment ('${PICO_SDK_PATH}')")
+if (DEFINED ENV{PICO_EXTRAS_PATH} AND (NOT PICO_EXTRAS_PATH))
+    set(PICO_EXTRAS_PATH $ENV{PICO_EXTRAS_PATH})
+    message("Using PICO_EXTRAS_PATH from environment ('${PICO_EXTRAS_PATH}')")
 endif ()
 
-if (DEFINED ENV{PICO_SDK_FETCH_FROM_GIT} AND (NOT PICO_SDK_FETCH_FROM_GIT))
-    set(PICO_SDK_FETCH_FROM_GIT $ENV{PICO_SDK_FETCH_FROM_GIT})
-    message("Using PICO_SDK_FETCH_FROM_GIT from environment ('${PICO_SDK_FETCH_FROM_GIT}')")
+if (DEFINED ENV{PICO_EXTRAS_FETCH_FROM_GIT} AND (NOT PICO_EXTRAS_FETCH_FROM_GIT))
+    set(PICO_EXTRAS_FETCH_FROM_GIT $ENV{PICO_EXTRAS_FETCH_FROM_GIT})
+    message("Using PICO_EXTRAS_FETCH_FROM_GIT from environment ('${PICO_EXTRAS_FETCH_FROM_GIT}')")
 endif ()
 
-if (DEFINED ENV{PICO_SDK_FETCH_FROM_GIT_PATH} AND (NOT PICO_SDK_FETCH_FROM_GIT_PATH))
-    set(PICO_SDK_FETCH_FROM_GIT_PATH $ENV{PICO_SDK_FETCH_FROM_GIT_PATH})
-    message("Using PICO_SDK_FETCH_FROM_GIT_PATH from environment ('${PICO_SDK_FETCH_FROM_GIT_PATH}')")
+if (DEFINED ENV{PICO_EXTRAS_FETCH_FROM_GIT_PATH} AND (NOT PICO_EXTRAS_FETCH_FROM_GIT_PATH))
+    set(PICO_EXTRAS_FETCH_FROM_GIT_PATH $ENV{PICO_EXTRAS_FETCH_FROM_GIT_PATH})
+    message("Using PICO_EXTRAS_FETCH_FROM_GIT_PATH from environment ('${PICO_EXTRAS_FETCH_FROM_GIT_PATH}')")
 endif ()
 
-set(PICO_SDK_PATH "${PICO_SDK_PATH}" CACHE PATH "Path to the Raspberry Pi Pico SDK")
-set(PICO_SDK_FETCH_FROM_GIT "${PICO_SDK_FETCH_FROM_GIT}" CACHE BOOL "Set to ON to fetch copy of SDK from git if not otherwise locatable")
-set(PICO_SDK_FETCH_FROM_GIT_PATH "${PICO_SDK_FETCH_FROM_GIT_PATH}" CACHE FILEPATH "location to download SDK")
-
-if (NOT PICO_SDK_PATH)
-    if (PICO_SDK_FETCH_FROM_GIT)
+if (NOT PICO_EXTRAS_PATH)
+    if (PICO_EXTRAS_FETCH_FROM_GIT)
         include(FetchContent)
         set(FETCHCONTENT_BASE_DIR_SAVE ${FETCHCONTENT_BASE_DIR})
-        if (PICO_SDK_FETCH_FROM_GIT_PATH)
-            get_filename_component(FETCHCONTENT_BASE_DIR "${PICO_SDK_FETCH_FROM_GIT_PATH}" REALPATH BASE_DIR "${CMAKE_SOURCE_DIR}")
+        if (PICO_EXTRAS_FETCH_FROM_GIT_PATH)
+            get_filename_component(FETCHCONTENT_BASE_DIR "${PICO_EXTRAS_FETCH_FROM_GIT_PATH}" REALPATH BASE_DIR "${CMAKE_SOURCE_DIR}")
         endif ()
-        # GIT_SUBMODULES_RECURSE was added in 3.17
-        if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.17.0")
-            FetchContent_Declare(
-                    pico_sdk
-                    GIT_REPOSITORY https://github.com/raspberrypi/pico-sdk
-                    GIT_TAG master
-                    GIT_SUBMODULES_RECURSE FALSE
-            )
-        else ()
-            FetchContent_Declare(
-                    pico_sdk
-                    GIT_REPOSITORY https://github.com/raspberrypi/pico-sdk
-                    GIT_TAG master
-            )
-        endif ()
-
-        if (NOT pico_sdk)
-            message("Downloading Raspberry Pi Pico SDK")
-            FetchContent_Populate(pico_sdk)
-            set(PICO_SDK_PATH ${pico_sdk_SOURCE_DIR})
+        FetchContent_Declare(
+                pico_extras
+                GIT_REPOSITORY https://github.com/raspberrypi/pico-extras
+                GIT_TAG master
+        )
+        if (NOT pico_extras)
+            message("Downloading PICO EXTRAS")
+            FetchContent_Populate(pico_extras)
+            set(PICO_EXTRAS_PATH ${pico_extras_SOURCE_DIR})
         endif ()
         set(FETCHCONTENT_BASE_DIR ${FETCHCONTENT_BASE_DIR_SAVE})
     else ()
-        message(FATAL_ERROR
-                "SDK location was not specified. Please set PICO_SDK_PATH or set PICO_SDK_FETCH_FROM_GIT to on to fetch from git."
-                )
+        if (PICO_SDK_PATH AND EXISTS "${PICO_SDK_PATH}/../pico-extras")
+            set(PICO_EXTRAS_PATH ${PICO_SDK_PATH}/../pico-extras)
+            message("Defaulting PICO_EXTRAS_PATH as sibling of PICO_SDK_PATH: ${PICO_EXTRAS_PATH}")
+        else()
+            message(FATAL_ERROR
+                    "PICO EXTRAS location was not specified. Please set PICO_EXTRAS_PATH or set PICO_EXTRAS_FETCH_FROM_GIT to on to fetch from git."
+                    )
+        endif()
     endif ()
 endif ()
 
-get_filename_component(PICO_SDK_PATH "${PICO_SDK_PATH}" REALPATH BASE_DIR "${CMAKE_BINARY_DIR}")
-if (NOT EXISTS ${PICO_SDK_PATH})
-    message(FATAL_ERROR "Directory '${PICO_SDK_PATH}' not found")
+set(PICO_EXTRAS_PATH "${PICO_EXTRAS_PATH}" CACHE PATH "Path to the PICO EXTRAS")
+set(PICO_EXTRAS_FETCH_FROM_GIT "${PICO_EXTRAS_FETCH_FROM_GIT}" CACHE BOOL "Set to ON to fetch copy of PICO EXTRAS from git if not otherwise locatable")
+set(PICO_EXTRAS_FETCH_FROM_GIT_PATH "${PICO_EXTRAS_FETCH_FROM_GIT_PATH}" CACHE FILEPATH "location to download EXTRAS")
+
+get_filename_component(PICO_EXTRAS_PATH "${PICO_EXTRAS_PATH}" REALPATH BASE_DIR "${CMAKE_BINARY_DIR}")
+if (NOT EXISTS ${PICO_EXTRAS_PATH})
+    message(FATAL_ERROR "Directory '${PICO_EXTRAS_PATH}' not found")
 endif ()
 
-set(PICO_SDK_INIT_CMAKE_FILE ${PICO_SDK_PATH}/pico_sdk_init.cmake)
-if (NOT EXISTS ${PICO_SDK_INIT_CMAKE_FILE})
-    message(FATAL_ERROR "Directory '${PICO_SDK_PATH}' does not appear to contain the Raspberry Pi Pico SDK")
-endif ()
+set(PICO_EXTRAS_PATH ${PICO_EXTRAS_PATH} CACHE PATH "Path to the PICO EXTRAS" FORCE)
 
-set(PICO_SDK_PATH ${PICO_SDK_PATH} CACHE PATH "Path to the Raspberry Pi Pico SDK" FORCE)
-
-include(${PICO_SDK_INIT_CMAKE_FILE})
+add_subdirectory(${PICO_EXTRAS_PATH} pico_extras)
