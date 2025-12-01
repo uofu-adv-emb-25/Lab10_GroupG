@@ -14,6 +14,7 @@ ENABLE:    0x00
 
 
 ## Activities 3 and 4
+We used a 1K resistor for our LED, which affects the current for the LED activities.
 Sleep
   Measurements:
 
