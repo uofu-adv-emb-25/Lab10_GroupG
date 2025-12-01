@@ -14,7 +14,7 @@ ENABLE:    0x00
 
 
 ## Activities 3 and 4
-1. Sleep
+Sleep
   Measurements:
 
   V = 5V
@@ -24,7 +24,8 @@ ENABLE:    0x00
   P = ~ 88mW to 94.5mW
 
 
-1. FreeRTOS Task
+--- 
+FreeRTOS Task
   Measurements:
 
   V = 5V
@@ -34,7 +35,8 @@ ENABLE:    0x00
   P = ~ 103mW to 109.4mW
 
 
-1. Busy Loop
+--- 
+Busy Loop
   Measurements:
 
   V = 5V
@@ -44,7 +46,8 @@ ENABLE:    0x00
   P = ~102mW
 
 
-1. GPIO Interrupt Toggle
+--- 
+GPIO Interrupt Toggle
   Measurements:
 
   - 1kHz:
@@ -83,7 +86,8 @@ ENABLE:    0x00
   P = 100.9 mW
 
 
-1. Sleep Demo
+--- 
+Sleep Demo
   Measurements:
 
   V = 5V
@@ -93,7 +97,8 @@ ENABLE:    0x00
   P = 5.75 mW in SLEEP mode
 
 
-1. Dormant Demo
+---
+Dormant Demo
   Measurements:
 
   V = 5V
