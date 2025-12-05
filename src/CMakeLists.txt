@@ -1,7 +1,12 @@
 # This is the main binary. List your C files here.
 add_executable(hello_freertos
-    hello_freertos.c
+    hello_dormant_gpio.c
     )
+
+add_compile_definitions(
+    DELAY_MS=1000
+    IN_PIN=6
+    OUT_PIN=7)
 
 pico_set_program_name(hello_freertos "test")
 pico_set_program_version(hello_freertos "0.1")
@@ -16,6 +21,7 @@ target_link_libraries(hello_freertos PRIVATE
   pico_stdlib
   pico_multicore
   pico_async_context_freertos
+  hardware_sleep
   FreeRTOS-Kernel-Heap4
 )
 

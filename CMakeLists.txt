@@ -7,6 +7,7 @@ endif()
 set(sdkVersion 2.0.0)
 set(toolchainVersion 13_2_Rel1)
 set(picotoolVersion 2.0.0)
+
 if (DEFINED PICO_SDK_PATH)
 # Already defined, e.g. -D flag
 elseif (DEFINED ENV{PICO_SDK_PATH})
@@ -15,6 +16,16 @@ elseif (DEFINED ENV{PICO_SDK_PATH})
 else()
 # Use the submodule
     set(PICO_SDK_PATH lib/pico-sdk)
+endif()
+
+if (DEFINED PICO_EXTRAS_PATH)
+# Already defined, e.g. -D flag
+elseif (DEFINED ENV{PICO_EXTRAS_PATH})
+# Defined in an environment variable
+    set(PICO_EXTRAS_PATH $ENV{PICO_EXTRAS_PATH})
+else()
+# Use the submodule
+    set(PICO_EXTRAS_PATH lib/extras)
 endif()
 
 if (DEFINED FREERTOS_PATH)
@@ -55,6 +66,9 @@ include(${PICO_SDK_PATH}/pico_sdk_init.cmake)
 
 # This imports the library configuration for FreeRTOS
 include(${FREERTOS_PATH}/portable/ThirdParty/GCC/RP2040/FreeRTOS_Kernel_import.cmake)
+
+# Include PICO EXTRAS
+include(pico_extras_import.cmake)
 
 # This sets up the unity library. They don't provide a library export, so it's defined locally.
 include(unity.cmake)
